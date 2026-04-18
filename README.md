@@ -1,98 +1,59 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 📚 Hệ thống Quản lý Thư viện (Library Management System)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+![NestJS](https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
+![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Một hệ thống quản lý thư viện toàn diện (Full-stack) được thiết kế với kiến trúc RESTful API, tập trung vào hiệu suất cao và quản lý luồng dữ liệu chặt chẽ thông qua hệ thống Stored Procedures/Views ở tầng Database.
 
-## Description
+---
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## ✨ Tính năng nổi bật (Key Features)
 
-## Project setup
+* **📖 Quản lý Danh mục & Đầu sách:** CRUD Thể loại, Quản lý chi tiết Đầu sách. Tích hợp bộ máy tìm kiếm (Search engine) linh hoạt theo Tên sách, Tác giả và Thể loại.
+* **👥 Quản lý Độc giả & Nhân viên:** Quản lý hồ sơ người dùng, phân quyền truy cập và trạng thái thẻ thư viện.
+* **🔄 Nghiệp vụ Mượn - Trả sách:** * Giao diện Master-Detail xử lý mảng JSON phức tạp.
+    * Quản lý theo mã vạch vật lý từng cuốn sách.
+    * Tự động tính toán hạn trả và xử lý tiền phạt quá hạn.
+* **📊 Thống kê & Dashboard:** Trực quan hóa dữ liệu (Pie Chart, Bar Chart) sử dụng Recharts. Báo cáo tự động danh sách sách quá hạn, top độc giả mượn nhiều thông qua MySQL Views.
 
+---
+
+## 🛠️ Công nghệ sử dụng (Tech Stack)
+
+### Backend (API Server)
+* **Framework:** [NestJS](https://nestjs.com/) (Node.js)
+* **Database Integration:** Sử dụng `mysql2/promise` kết hợp Connection Pool để tối ưu hóa hiệu suất thay vì ORM truyền thống.
+* **Validation:** `class-validator` & `class-transformer` (DTOs).
+
+### Frontend (Client App)
+* **Core:** ReactJS khởi tạo bằng Vite.
+* **Styling:** Tailwind CSS cho UI/UX nhất quán, hiện đại.
+* **State & Data Fetching:** Axios Client (cấu hình Interceptors xử lý Token tập trung), React Hooks.
+* **Charts:** Recharts.
+
+### Database
+* **RDBMS:** MySQL.
+* **Core Logic:** Tối ưu hóa xử lý nghiệp vụ nặng trực tiếp tại DB thông qua hệ thống **Stored Procedures**, **Triggers**, và **Views** (Đảm bảo tính toàn vẹn dữ liệu và giảm tải cho backend).
+
+---
+
+## 🚀 Hướng dẫn cài đặt (Installation & Setup)
+
+### 1. Chuẩn bị Cơ sở dữ liệu (Database Setup)
+1. Cài đặt MySQL Server.
+2. Mở MySQL Workspace / DBeaver, tạo một database mới (VD: `libmn`).
+3. Chạy file script SQL đính kèm trong thư mục `database/` để khởi tạo Bảng, Khóa ngoại, Views và toàn bộ Stored Procedures.
+
+### 2. Cài đặt Backend (NestJS)
 ```bash
-$ npm install
-```
+# Di chuyển vào thư mục backend
+cd backend
 
-## Compile and run the project
+# Cài đặt các dependencies
+npm install
 
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Run tests
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
-
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+# Tạo file .env dựa trên .env.example
+cp config/.env.example config/.env
