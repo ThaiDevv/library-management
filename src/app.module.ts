@@ -4,6 +4,8 @@ import { DatabaseModule } from './database/database.module';
 import { DatabaseService } from './database/database.service';
 import { CategoryModule } from './modules/category/category.module';
 import { BookModule } from './modules/book/book.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { UserModule } from './modules/user/user.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -12,6 +14,8 @@ import { BookModule } from './modules/book/book.module';
     DatabaseModule,
     CategoryModule,
     BookModule,
+    AuthModule,
+    UserModule,
   ],
   controllers: [],
   providers: [DatabaseService],
