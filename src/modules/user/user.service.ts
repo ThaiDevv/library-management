@@ -4,6 +4,10 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { DatabaseService } from 'src/database/database.service';
 import { userRole } from '../auth/entities/user-role.enum';
 import * as bcrypt from 'bcrypt';
+import { CreateDocGiaDto } from './dto/create-DocGia.dto';
+import { CreateFindDocGiaDto } from './dto/create-FindDocGia.dto';
+import { ViewDocGiaDto } from './dto/create-ViewDocGia.dto';
+import { CreateNewNhanVienDto } from './dto/create-NhanVien.Dto';
 @Injectable()
 export class UserService {
   constructor(private db: DatabaseService) {}
@@ -26,19 +30,53 @@ export class UserService {
     }
   }
 
-  findAll() {
-    return `This action returns all user`;
+  async CreateDocGia(createDocGiaDto: CreateDocGiaDto){
+    const{MaDocGia,HoTen,NgaySinh,DiaChi,SDT} = createDocGiaDto
+    const sql = 'CALL ThemDocGia(?,?,?,?,?)';//
+    const params = [MaDocGia,HoTen,NgaySinh,DiaChi,SDT]
+    const result = await this.db.query(sql,params)
+    return result
   }
-
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async UpdateDocGia(createUpdateDocGiaDto:CreateDocGiaDto){
+    const{MaDocGia,HoTen,NgaySinh,DiaChi,SDT} = createUpdateDocGiaDto
+    const sql = 'CALL CapNhatDocGia(?,?,?,?,?)';
+    const params =[MaDocGia,
+                   HoTen??null,
+                   NgaySinh??null,
+                   DiaChi??null,
+                   SDT??null]
+    const result = await this.db.query(sql,params)
+    return result
   }
-
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async DeleteDocGia(createDeleteDocGiaDto:CreateDocGiaDto){
+    const{MaDocGia}=createDeleteDocGiaDto
+    const sql="Update docgia SET TrangThai = 'DaXoaDocGia' where MaDocGia=?";  
+    const params=[MaDocGia];
+    const result=await this.db.query(sql,params)
+    return result
   }
+  async FindDocGia(createFindDocGiaDto:CreateFindDocGiaDto){
+    const{HoTen,TuNgay,DenNgay} = createFindDocGiaDto
+    const sql='CALL TimDocGia(?,?,?)';
+    const params =[HoTen??null,
+                   TuNgay??null,
+                   DenNgay??null]
+    const result=await this.db.query(sql,params)
+    return result
+  }
+  async ViewDocGia(viewDocGiaDto:ViewDocGiaDto){
+    const{HoTen}=viewDocGiaDto;
+    const sql='CALL XemDanhSachNguoiMuonTheoTen(?)';
+    const params=[HoTen??null];
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+    const result=await this.db.query(sql,params)
+    return result
+  } 
+  async CreateNewNhanVien(createNewNhanVienDto:CreateNewNhanVienDto){
+    const{MaNV,HoTen,DienThoai}=createNewNhanVienDto;
+    const sql='CALL ThemNhanVien(?,?,?)';
+    const params=[MaNV,HoTen,DienThoai];
+    const result=await this.db.query(sql,params)
+    return result
   }
 }
