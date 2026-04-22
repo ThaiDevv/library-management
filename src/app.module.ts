@@ -6,6 +6,7 @@ import { CategoryModule } from './modules/category/category.module';
 import { BookModule } from './modules/book/book.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
+import { ReportModule } from './modules/report/report.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -16,6 +17,7 @@ import { UserModule } from './modules/user/user.module';
     BookModule,
     AuthModule,
     UserModule,
+    ReportModule,
   ],
   controllers: [],
   providers: [DatabaseService],

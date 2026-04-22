@@ -19,15 +19,14 @@ export class UserController {
   CreateDocGia(@Body() createDocGiaDto: CreateDocGiaDto){
     return this.userService.CreateDocGia(createDocGiaDto)
   }
-  @Patch(':id')
+  @Patch('docgia/:id')
   UpdateDocGia(@Param('id') id:string,@Body() createUpdateDocGiaDto: CreateDocGiaDto){
     createUpdateDocGiaDto.MaDocGia=id;
     return this.userService.UpdateDocGia(createUpdateDocGiaDto)
   }
-  @Delete(':id')
-  DeleteDocGia(@Param('id') id:string,@Body() createDeleteDocGiaDto:CreateDocGiaDto){
-    createDeleteDocGiaDto.MaDocGia=id;
-    return this.userService.DeleteDocGia(createDeleteDocGiaDto)
+  @Delete('docgia/:id')
+  DeleteDocGia(@Param('id') id:string ){
+    return this.userService.DeleteDocGia(id);
   }
   @Get('find')
   FindDocGia(@Query() findDocGia:CreateFindDocGiaDto){
@@ -37,9 +36,21 @@ export class UserController {
   ViewDocGia(@Query() viewdocgia:ViewDocGiaDto){
     return this.userService.ViewDocGia(viewdocgia)
   }
-  @Post('/NhanVien')
+  @Post('/nhanvien')
   CreateNewNhanVien(@Body() createNewNhanVienDto:CreateNewNhanVienDto){
     return this.userService.CreateNewNhanVien(createNewNhanVienDto)
   }
-
+  @Patch("nhanvien/:MaNV")
+  UpdateNhanVien(@Param('MaNV') MaNV:string,@Body() updateNhanVienDto:CreateNewNhanVienDto){
+    updateNhanVienDto.MaNV=MaNV;
+    return this.userService.UpdateNhanVien(updateNhanVienDto)
+  }
+  @Delete("nhanvien/:MaNV")
+  DeleteNhanVien(@Param('MaNV') MaNV:string){
+    return this.userService.DeleteNhanVien(MaNV);
+  }
+  @Get('viewNhanVien')
+  ViewNhanVien(@Query() viewNhanVien:CreateNewNhanVienDto){
+    return this.userService.ViewNhanVien(viewNhanVien);
+  }
 }

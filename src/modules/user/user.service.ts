@@ -48,10 +48,9 @@ export class UserService {
     const result = await this.db.query(sql,params)
     return result
   }
-  async DeleteDocGia(createDeleteDocGiaDto:CreateDocGiaDto){
-    const{MaDocGia}=createDeleteDocGiaDto
+  async DeleteDocGia(id: string){
     const sql="Update docgia SET TrangThai = 'DaXoaDocGia' where MaDocGia=?";  
-    const params=[MaDocGia];
+    const params=[id];
     const result=await this.db.query(sql,params)
     return result
   }
@@ -66,7 +65,7 @@ export class UserService {
   }
   async ViewDocGia(viewDocGiaDto:ViewDocGiaDto){
     const{HoTen}=viewDocGiaDto;
-    const sql='CALL XemDanhSachNguoiMuonTheoTen(?)';
+    const sql='CALL TimDocGia(?)';
     const params=[HoTen??null];
 
     const result=await this.db.query(sql,params)
@@ -78,5 +77,40 @@ export class UserService {
     const params=[MaNV,HoTen,DienThoai];
     const result=await this.db.query(sql,params)
     return result
+  }
+  async UpdateNhanVien(updateNhanVienDto:CreateNewNhanVienDto){
+    const{MaNV,HoTen,DienThoai}=updateNhanVienDto;
+    const sql='CALL CapNhatNhanVien(?,?,?)';
+    const params=[MaNV,HoTen??null,DienThoai??null];
+    const result = await this.db.query(sql,params)
+    return result
+  } 
+  async DeleteNhanVien(id:string){
+    const sql='DELETE from nhanvien where MaNV=?';
+    const params=[id];
+    const result=await this.db.query(sql,params)
+    return result
+  }
+  async ViewNhanVien(viewNhanVienDto:CreateNewNhanVienDto){
+    const{MaNV,HoTen,DienThoai}=viewNhanVienDto;
+    let sql = 'SELECT * FROM nhanvien WHERE 1=1';
+    const params: any[] = [];
+
+    if (MaNV) {
+    sql += ' AND MaNV = ?';
+    params.push(MaNV);
+  }
+
+    if (HoTen) {
+    sql += ' AND HoTen LIKE ?';
+    params.push(`%${HoTen}%`);
+  }
+
+    if (DienThoai) {
+    sql += ' AND DienThoai = ?';
+    params.push(DienThoai);
+  }
+  const result=await this.db.query(sql,params)
+  return result
   }
 }
