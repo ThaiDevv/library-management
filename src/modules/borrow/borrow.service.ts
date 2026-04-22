@@ -1,7 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
 import { creatBorrowDto } from './dto/creatBorrow.dto';
 import { updateBorrowDto } from './dto/updateDealine.dto';
+import { add_DelBookDto } from './dto/add_DelBook.dto';
+import { searchDto } from './dto/searchBorrow.dto';
 
 @Injectable()
 export class BorrowService {
@@ -47,14 +49,47 @@ export class BorrowService {
       throw new Error(`Lỗi khi xoa PHieu Muon: ${error.message}`);
     }
   }
-  async findAll() {
+  async findAll(SearchDto: searchDto) {
     try {
-      const sql = 'SELECT * FROM v_phieumuonchitiet';
-      const result = await this.db.query(sql);
-      return result;
+      const { TenDocGia, TuNgay, DenNgay } = SearchDto;
+
+      const sql = 'CALL TimKiemMuonSach(?,?,?)';
+      const params = [TenDocGia || null, TuNgay || null, DenNgay || null];
+
+      const result = await this.db.query(sql, params);
+      return result[0];
     } catch (error) {
-      throw new Error(`Lỗi khi Lay PHieu Muon: ${error.message}`);
+      throw new BadRequestException(
+        `Lỗi khi Tìm Kiếm Phiếu Mượn: ${error.message}`,
+      );
     }
   }
-  // async addBook()
+  async addBookinBorrow(addBookDto: add_DelBookDto) {
+    try {
+      const { MaPM, DanhSach } = addBookDto;
+      const sql = 'Call ThemSachVaoPhieuMuon(?,?)';
+      const params = [MaPM, DanhSach];
+      const result = await this.db.query(sql, params);
+      return {
+        success: true,
+        message: 'Them sach vao Phieu Muon thành công!',
+      };
+    } catch (error) {
+      throw new Error(`Lỗi khi Them sach vao PHieu Muon: ${error.message}`);
+    }
+  }
+  async deleteBookInBorrow(delBookDto: add_DelBookDto){
+    try {
+      const { MaPM, DanhSach } = delBookDto;
+      const sql = 'Call XoaNhieuSachKhoiPhieuMuon(?,?)';
+      const params = [MaPM, DanhSach];
+      const result = await this.db.query(sql, params);
+      return {
+        success: true,
+        message: 'Xoa sach khoi Phieu Muon thành công!',
+      };
+    } catch (error) {
+      throw new Error(`Lỗi khi xoa sach khoi PHieu Muon: ${error.message}`);
+    }
+  }
 }
