@@ -18,7 +18,8 @@ export class AuthService {
     if (!users || users.length === 0) {
       throw new UnauthorizedException('Invalid credentials');
     } else {
-      const auth = await bcrypt.compare(password, user.MatKhau);
+      // Hỗ trợ tạm thời mật khẩu chưa mã hoá trong bản SQL (123456)
+      const auth = (password === user.MatKhau) || await bcrypt.compare(password, user.MatKhau).catch(() => false);
       if (auth) {
         const payload: JwtPayload = { sub: user.MaNV, role: user.role };
         const accessToken = this.jwtService.sign(payload);
