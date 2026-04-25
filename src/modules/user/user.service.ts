@@ -4,6 +4,10 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { DatabaseService } from 'src/database/database.service';
 import { userRole } from '../auth/entities/user-role.enum';
 import * as bcrypt from 'bcrypt';
+import { CreateDocGiaDto } from './dto/create-DocGia.dto';
+import { CreateFindDocGiaDto } from './dto/create-FindDocGia.dto';
+import { ViewDocGiaDto } from './dto/create-ViewDocGia.dto';
+import { CreateNewNhanVienDto } from './dto/create-NhanVien.Dto';
 @Injectable()
 export class UserService {
   constructor(private db: DatabaseService) {}
@@ -26,19 +30,87 @@ export class UserService {
     }
   }
 
-  findAll() {
-    return `This action returns all user`;
+  async CreateDocGia(createDocGiaDto: CreateDocGiaDto){
+    const{MaDocGia,HoTen,NgaySinh,DiaChi,SDT} = createDocGiaDto
+    const sql = 'CALL ThemDocGia(?,?,?,?,?)';//
+    const params = [MaDocGia,HoTen,NgaySinh,DiaChi,SDT]
+    const result = await this.db.query(sql,params)
+    return result
+  }
+  async UpdateDocGia(createUpdateDocGiaDto:CreateDocGiaDto){
+    const{MaDocGia,HoTen,NgaySinh,DiaChi,SDT} = createUpdateDocGiaDto
+    const sql = 'CALL CapNhatDocGia(?,?,?,?,?)';
+    const params =[MaDocGia,
+                   HoTen??null,
+                   NgaySinh??null,
+                   DiaChi??null,
+                   SDT??null]
+    const result = await this.db.query(sql,params)
+    return result
+  }
+  async DeleteDocGia(id: string){
+    const sql="Update docgia SET TrangThai = 'DaXoaDocGia' where MaDocGia=?";  
+    const params=[id];
+    const result=await this.db.query(sql,params)
+    return result
+  }
+  async FindDocGia(createFindDocGiaDto:CreateFindDocGiaDto){
+    const{HoTen,TuNgay,DenNgay} = createFindDocGiaDto
+    const sql='CALL TimDocGia(?,?,?)';
+    const params =[HoTen??null,
+                   TuNgay??null,
+                   DenNgay??null]
+    const result=await this.db.query(sql,params)
+    return result
+  }
+  async ViewDocGia(viewDocGiaDto:ViewDocGiaDto){
+    const{HoTen}=viewDocGiaDto;
+    const sql='CALL TimDocGia(?)';
+    const params=[HoTen??null];
+
+    const result=await this.db.query(sql,params)
+    return result
+  } 
+  async CreateNewNhanVien(createNewNhanVienDto:CreateNewNhanVienDto){
+    const{MaNV,HoTen,DienThoai}=createNewNhanVienDto;
+    const sql='CALL ThemNhanVien(?,?,?)';
+    const params=[MaNV,HoTen,DienThoai];
+    const result=await this.db.query(sql,params)
+    return result
+  }
+  async UpdateNhanVien(updateNhanVienDto:CreateNewNhanVienDto){
+    const{MaNV,HoTen,DienThoai}=updateNhanVienDto;
+    const sql='CALL CapNhatNhanVien(?,?,?)';
+    const params=[MaNV,HoTen??null,DienThoai??null];
+    const result = await this.db.query(sql,params)
+    return result
+  } 
+  async DeleteNhanVien(id:string){
+    const sql='DELETE from nhanvien where MaNV=?';
+    const params=[id];
+    const result=await this.db.query(sql,params)
+    return result
+  }
+  async ViewNhanVien(viewNhanVienDto:CreateNewNhanVienDto){
+    const{MaNV,HoTen,DienThoai}=viewNhanVienDto;
+    let sql = 'SELECT * FROM nhanvien WHERE 1=1';
+    const params: any[] = [];
+
+    if (MaNV) {
+    sql += ' AND MaNV = ?';
+    params.push(MaNV);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+    if (HoTen) {
+    sql += ' AND HoTen LIKE ?';
+    params.push(`%${HoTen}%`);
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+    if (DienThoai) {
+    sql += ' AND DienThoai = ?';
+    params.push(DienThoai);
   }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  const result=await this.db.query(sql,params)
+  return result
   }
 }
