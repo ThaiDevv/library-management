@@ -1,4 +1,4 @@
 export class ThongKePhieuMuonDto {
-    TuNgay!: string;   
-    DenNgay!: string;  
+  TuNgay!: string;
+  DenNgay!: string;
 }

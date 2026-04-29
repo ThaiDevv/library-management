@@ -1,3 +1,3 @@
 export class ThongKeSachDangMuonDto {
-    MaDocGia!: string;
+  MaDocGia!: string;
 }

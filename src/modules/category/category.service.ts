@@ -15,7 +15,7 @@ export class CategoryService {
       return {
         success: true,
         message: 'Thêm thể loại thành công!',
-        data: result,
+        data: result[0],
       };
     } catch (error) {
       throw new BadRequestException(`Lỗi từ Database: ${error.message}`);

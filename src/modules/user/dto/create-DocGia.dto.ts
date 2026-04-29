@@ -1,10 +1,9 @@
-import { TTHDDocGia } from "../entities/createDocGia.enum";
+import { TTHDDocGia } from '../entities/createDocGia.enum';
 
 export class CreateDocGiaDto {
-    MaDocGia!:string;
-    HoTen!:String;
-    NgaySinh!:Date;
-    DiaChi!:string;
-    SDT!:string;
+  MaDocGia!: string;
+  HoTen!: string;
+  NgaySinh!: Date;
+  DiaChi!: string;
+  SDT!: string;
 }
-

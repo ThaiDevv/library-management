@@ -81,15 +81,34 @@ export class BorrowService {
   async deleteBookInBorrow(delBookDto: add_DelBookDto){
     try {
       const { MaPM, DanhSach } = delBookDto;
-      const sql = 'Call XoaNhieuSachKhoiPhieuMuon(?,?)';
+      const sql = 'Call ThucHienTraSach(?,?)';
       const params = [MaPM, DanhSach];
       const result = await this.db.query(sql, params);
       return {
         success: true,
-        message: 'Xoa sach khoi Phieu Muon thành công!',
+        message: 'Trả sách thành công!',
       };
     } catch (error) {
-      throw new Error(`Lỗi khi xoa sach khoi PHieu Muon: ${error.message}`);
+      throw new Error(`Lỗi khi Trả sách: ${error.message}`);
+    }
+  }
+  async findOne(MaPM: string) {
+    const result = await this.db.query(
+      'SELECT * FROM phieumuon WHERE MaPM = ?',
+      [MaPM],
+    );
+    return result[0] ?? null;
+  }
+  async returnBooks(MaPM: string) {
+    try {
+      const sql = 'CALL TraNhieuSach(?)';
+      const result = await this.db.query(sql, [MaPM]);
+      return {
+        success: true,
+        message: 'Trả sách thành công!',
+      };
+    } catch (error) {
+      throw new Error(`Lỗi khi trả sách: ${error.message}`);
     }
   }
 }

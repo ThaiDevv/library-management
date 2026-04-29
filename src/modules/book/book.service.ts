@@ -3,7 +3,6 @@ import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { DatabaseService } from 'src/database/database.service';
 import { searchBookDto } from './dto/search-book.dto';
-
 @Injectable()
 export class BookService {
   constructor(private readonly db: DatabaseService) {}
@@ -74,9 +73,33 @@ export class BookService {
         TacGia ?? null,
         MaTheLoai ?? null,
       ]);
-      return result;
+      return result[0];
     } catch (error) {
       throw new Error(`Lỗi khi tim kiem Dau Sach: ${error.message}`);
     }
+  }
+  async findOneBook(MaDauSach: string) {
+    const result = await this.db.query(
+      'SELECT * FROM v_quanlysach WHERE MaDauSach = ?',
+      [MaDauSach],
+    );
+    return result[0] ?? null;
+  }
+  async findInstances(MaDauSach: string) {
+    const result = await this.db.query(
+      'SELECT * FROM cuonsach WHERE MaDauSach = ?',
+      [MaDauSach],
+    );
+    return result;
+  }
+  async addInstance(MaDauSach: string, SoLuong: number) {
+    const result = await this.db.query('CALL NhapKhoCuonSach(?, ?)', [
+      MaDauSach,
+      SoLuong,
+    ]);
+    return {
+      success: true,
+      message: 'Them cuon Sach thành công!',
+    };
   }
 }

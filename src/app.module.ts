@@ -8,6 +8,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { ReportModule } from './modules/report/report.module';
 import { BorrowModule } from './modules/borrow/borrow.module';
+import { FinesModule } from './modules/fines/fines.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -20,6 +21,7 @@ import { BorrowModule } from './modules/borrow/borrow.module';
     UserModule,
     ReportModule,
     BorrowModule,
+    FinesModule,
   ],
   controllers: [],
   providers: [DatabaseService],

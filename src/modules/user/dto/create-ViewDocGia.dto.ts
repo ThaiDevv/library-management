@@ -1,3 +1,3 @@
 export class ViewDocGiaDto {
-    HoTen?: string;
+  HoTen?: string;
 }
