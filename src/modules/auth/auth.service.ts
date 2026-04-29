@@ -30,13 +30,6 @@ export class AuthService {
         throw new UnauthorizedException('wrong password');
       }
     }
-    const auth = await bcrypt.compare(password, user.MatKhau);
-    if (!auth) {
-      throw new UnauthorizedException('Sai mật khẩu');
-    }
-    const payload: JwtPayload = { sub: user.MaNV, role: user.role };
-    const accessToken = this.jwtService.sign(payload);
-    return { accessToken };
   }
 
   async getMe(user: any) {

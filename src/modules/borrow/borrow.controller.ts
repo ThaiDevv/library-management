@@ -27,7 +27,6 @@ export class BorrowController {
 
   // GET /borrow-tickets?TenDocGia=&TuNgay=&DenNgay= — Lấy danh sách Phiếu mượn
   @Get()
-  @Roles(userRole.NHANVIEN)
   findAll(@Query() search: searchDto) {
     return this.borrowService.findAll(search);
   }

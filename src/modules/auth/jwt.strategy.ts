@@ -13,7 +13,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
   async validate(payload: JwtPayload) {
     const { sub } = payload;
-    console.log('payload:', payload);
     const sql = 'SELECT * FROM taikhoan WHERE MaNV = ?';
     const users = await this.db.query(sql, [sub]);
     if (!users || users.length === 0) {
