@@ -19,18 +19,15 @@ export class AuthService {
     const user = users[0];
     if (!users || users.length === 0) {
       throw new UnauthorizedException('Invalid credentials');
+    } else {
+      const auth = await bcrypt.compare(password, user.MatKhau);
+      if (auth) {
+        const payload: JwtPayload = { sub: user.MaNV, role: user.role };
+        const accessToken = this.jwtService.sign(payload);
+        return { accessToken };
+      } else {
+        throw new UnauthorizedException('wrong password');
+      }
     }
-    const auth = await bcrypt.compare(password, user.MatKhau);
-    if (!auth) {
-      throw new UnauthorizedException('Sai mật khẩu');
-    }
-    const payload: JwtPayload = { sub: user.MaNV, role: user.role };
-    const accessToken = this.jwtService.sign(payload);
-    return { accessToken };
-  }
-
-  async getMe(user: any) {
-    const { MatKhau, ...safeUser } = user;
-    return safeUser;
   }
 }

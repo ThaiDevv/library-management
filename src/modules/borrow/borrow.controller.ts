@@ -8,6 +8,7 @@ import {
   Post,
   Query,
   UseGuards,
+  UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { BorrowService } from './borrow.service';
@@ -27,6 +28,7 @@ export class BorrowController {
 
   // GET /borrow-tickets?TenDocGia=&TuNgay=&DenNgay= — Lấy danh sách Phiếu mượn
   @Get()
+  @Roles(userRole.NHANVIEN)
   findAll(@Query() search: searchDto) {
     return this.borrowService.findAll(search);
   }
